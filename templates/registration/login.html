@@ -1,0 +1,25 @@
+{% extends 'templatesBoxApp/base.html' %}
+
+{% block contenido %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+<div class="d-flex align-items-center justify-content-center vh-100">
+    <div class="card col-4">
+        <img src="{% static 'images/gmlogo.png' %}" alt="Logo" class="card-img-top" style="display: block; margin: 0 auto; width: 150px; height: auto;">
+        <div class="card-body">
+            <h5 class="card-title">Inicio de Sesión</h5>
+            <hr>
+            <form method="post" action="{% url 'login' %}">
+                {% csrf_token %}
+                {{ form | crispy }}
+                <div class="d-flex">
+                    <input class="btn btn-secondary" value="Cancelar" type="reset">
+                    <input type="submit" value="Ingresar" class="btn btn-dark">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
