@@ -1,0 +1,88 @@
+{% extends 'templatesBoxApp/base.html' %}
+
+{% block contenido %}
+
+{% load static %}
+
+    <div class="container">
+        <div class="row mt-5">
+            <div class="col">
+                <h2>Modificar Empleado</h2>
+                <form method="post" action="{% url 'modificarEmpleado' empleado.id %}" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="row">
+                        {{ form.non_field_errors }}
+                        <div class="col-3 mb-3">
+                            {{ form.id.label_tag }}
+                            {{ form.id }}
+                            {{ form.id.errors }}
+                        </div>
+                        <div class="col-3 mb-3">
+                            {{ form.nombre.label_tag }}
+                            {{ form.nombre }}
+                            {{ form.nombre.errors }}
+                        </div>
+                        <div class="col-3 mb-3">
+                            <label for="id_paterno">Apellido Paterno: </label>
+                            {{ form.paterno }}
+                            {{ form.paterno.errors }}
+                        </div>
+                        <div class="col-3 mb-3">
+                            <label for="id_materno">Apellido Materno: </label>
+                            {{ form.materno }}
+                            {{ form.materno.errors }}
+                        </div>
+                        <div class="col-3 mb-3">
+                            {{ form.run.label_tag }}
+                            {{ form.run }}
+                            {{ form.run.errors }}
+                        </div>
+                        <div class="col-3 mb-3">
+                            <label for="id_genero">Género: </label>
+                            {{ form.genero }}
+                            {{ form.genero.errors }}
+                        </div>
+                        <div class="col-3 mb-3">
+                            <label for="id_cantHoras">Cantidad de Horas: </label>
+                            {{ form.cantHoras }}
+                            {{ form.cantHoras.errors }}
+                        </div>
+                        <div class="col-3 mb-3">
+                            <label for="id_fechaNac">Fecha de Nacimiento: </label>
+                            {{ form.fechaNac }}
+                            {{ form.fechaNac.errors }}
+                        </div>
+                        <div class="col-3 mb-3">
+                            {{ form.especialidad.label_tag }}
+                            {{ form.especialidad }}
+                            {{ form.especialidad.errors }}
+                        </div>
+                        <div class="col-3 mb-3">
+                            <label for="id_area">Área: </label>
+                            {{ form.area }}
+                            {{ form.area.errors }}
+                        </div>
+                        <div class="col-3 mb-3">
+                            <div class="row">
+                                <div class="col">
+                                    <img src="{% static 'images/mati.jpg' %}" alt="Imagen de Empleado" width="200" height="auto" class="mx-auto d-block">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <a class="btn btn-dark" href="{% url 'inicio' %}">Ir al Inicio</a>
+                        </div>
+                        <div class="col">
+                            <button class="btn btn-warning" type="submit">Modificar</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+
+{% endblock %}

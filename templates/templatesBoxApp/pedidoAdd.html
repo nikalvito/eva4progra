@@ -1,0 +1,125 @@
+{% extends 'templatesBoxApp/base.html' %}
+
+{% block contenido %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Crear Nuevo Pedido</h3>
+                </div>
+                <div class="card-body">
+                    <form method="post" id="pedidoForm">
+                        {% csrf_token %}
+
+
+                        <h4>Seleccionar Productos</h4>
+                        <div id="productosContainer">
+                            <div class="producto-item mb-3 border p-3">
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        <label class="form-label">Producto</label>
+                                        <select name="productos" class="form-control producto-select">
+                                            <option value="">Seleccione un Producto</option>
+                                            {% for producto in productos %}
+                                                <option value="{{ producto.id }}" data-precio="{{ producto.precio }}" data-stock="{{ producto.stock }}">{{ producto.nombre }} - ${{ producto.precio }} (Stock: {{ producto.stock }})</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="form-label">Cantidad</label>
+                                        <input type="number" name="cantidades" class="form-control cantidad-input" min="1" value="1">
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label class="form-label">Subtotal</label>
+                                        <input type="text" class="form-control subtotal-display" readonly>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <button type="button" class="btn btn-danger remove-producto mt-4">Remover</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="button" id="addProducto" class="btn btn-secondary mb-3">Agregar Otro Producto</button>
+
+                        <div class="mb-3">
+                            <h4>Total: $<span id="total">0</span></h4>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Crear Pedido</button>
+                        <a href="{% url 'pedidos' %}" class="btn btn-secondary">Cancelar</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const productosContainer = document.getElementById('productosContainer');
+    const addProductoBtn = document.getElementById('addProducto');
+    const totalSpan = document.getElementById('total');
+
+    function updateTotal() {
+        let total = 0;
+        document.querySelectorAll('.producto-item').forEach(item => {
+            const subtotalInput = item.querySelector('.subtotal-display');
+            if (subtotalInput && subtotalInput.value) {
+                total += parseFloat(subtotalInput.value) || 0;
+            }
+        });
+        totalSpan.textContent = total.toFixed(2);
+    }
+
+    function updateSubtotal(item) {
+        const select = item.querySelector('.producto-select');
+        const cantidadInput = item.querySelector('.cantidad-input');
+        const subtotalInput = item.querySelector('.subtotal-display');
+
+        const precio = parseFloat(select.selectedOptions[0]?.dataset.precio) || 0;
+        const cantidad = parseInt(cantidadInput.value) || 0;
+        const subtotal = precio * cantidad;
+
+        subtotalInput.value = subtotal.toFixed(2);
+        updateTotal();
+    }
+
+    productosContainer.addEventListener('change', function(e) {
+        if (e.target.classList.contains('producto-select') || e.target.classList.contains('cantidad-input')) {
+            const item = e.target.closest('.producto-item');
+            updateSubtotal(item);
+        }
+    });
+
+    productosContainer.addEventListener('input', function(e) {
+        if (e.target.classList.contains('cantidad-input')) {
+            const item = e.target.closest('.producto-item');
+            updateSubtotal(item);
+        }
+    });
+
+    addProductoBtn.addEventListener('click', function() {
+        const firstItem = productosContainer.querySelector('.producto-item');
+        const newItem = firstItem.cloneNode(true);
+        newItem.querySelector('.producto-select').selectedIndex = 0;
+        newItem.querySelector('.cantidad-input').value = 1;
+        newItem.querySelector('.subtotal-display').value = '';
+        productosContainer.appendChild(newItem);
+    });
+
+    productosContainer.addEventListener('click', function(e) {
+        if (e.target.classList.contains('remove-producto')) {
+            const items = productosContainer.querySelectorAll('.producto-item');
+            if (items.length > 1) {
+                e.target.closest('.producto-item').remove();
+                updateTotal();
+            }
+        }
+    });
+
+    // Initialize first item
+    updateSubtotal(productosContainer.querySelector('.producto-item'));
+});
+</script>
+{% endblock %}

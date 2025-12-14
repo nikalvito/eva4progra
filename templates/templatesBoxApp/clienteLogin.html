@@ -1,0 +1,32 @@
+{% extends 'templatesBoxApp/base.html' %}
+
+{% block contenido %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Iniciar Sesión como Cliente</h3>
+                </div>
+                <div class="card-body">
+                    {% if error %}
+                        <div class="alert alert-danger">{{ error }}</div>
+                    {% endif %}
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Correo Electrónico</label>
+                            <input type="email" class="form-control" id="email" name="email" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Contraseña</label>
+                            <input type="password" class="form-control" id="password" name="password" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

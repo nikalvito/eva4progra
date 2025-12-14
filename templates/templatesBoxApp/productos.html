@@ -1,0 +1,50 @@
+{% extends 'templatesBoxApp/base.html' %}
+
+{% block contenido %}
+
+    <div class="row">
+        <div class="col">
+            <div class="row">
+                <div class="col-9">
+                    <div class="h2">Listado de productos</div>
+                </div>
+                <div class="col-3">
+                    <a href="{% url 'crearProductos' %}" class="btn btn-dark">Agregar Productos</a>
+                </div>
+            </div>
+
+            <table class="table table-striped-columns">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">ID</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Stock</th>
+                    <th scope="col">Hora Ingreso</th>
+                    <th scope="col">Precio</th>
+                    <th scope="col">Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    {% for prod in productos %}
+
+                    <tr>
+                        <th scope="row">{{ forloop.counter }}</th>
+                        <td>{{ prod.id }}</td>
+                        <td>{{ prod.nombre }}</td>
+                        <td>{{ prod.stock }}</td>
+                        <td>{{ prod.hora_ingreso }}</td>
+                        <td>{{ prod.precio }}</td>
+                        <td>
+                            <a href="{% url 'cargarProducto' prod.id %}" class="btn btn-warning">Modificar</a>
+                            <a href="{% url 'eliminarProducto' prod.id %}" class="btn btn-danger">Eliminar</a>
+                        </td>
+                      </tr>
+
+                    {% endfor %}
+                </tbody>
+              </table>
+        </div>
+    </div>
+
+{% endblock %}

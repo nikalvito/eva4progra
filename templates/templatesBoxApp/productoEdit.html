@@ -1,0 +1,56 @@
+{% extends 'templatesBoxApp/base.html' %}
+
+{% block contenido %}
+
+{% load static %}
+
+    <div class="container">
+        <div class="row mt-5">
+            <div class="col">
+                <h2>Modificar Producto</h2>
+                <form method="post" action="{% url 'modificarProducto' producto.id %}">
+                    {% csrf_token %}
+                    <div class="row">
+                        {{ form.non_field_errors }}
+                        <div class="col-3 mb-3">
+                            {{ form.id.label_tag }}
+                            {{ form.id }}
+                            {{ form.id.errors }}
+                        </div>
+                        <div class="col-3 mb-3">
+                            {{ form.nombre.label_tag }}
+                            {{ form.nombre }}
+                            {{ form.nombre.errors }}
+                        </div>
+                        <div class="col-3 mb-3">
+                            {{ form.stock.label_tag }}
+                            {{ form.stock }}
+                            {{ form.stock.errors }}
+                        </div>
+                        <div class="col-3 mb-3">
+                            {{ form.hora_ingreso.label_tag }}
+                            {{ form.hora_ingreso }}
+                            {{ form.hora_ingreso.errors }}
+                        </div>
+                        <div class="col-3 mb-3">
+                            {{ form.precio.label_tag }}
+                            {{ form.precio }}
+                            {{ form.precio.errors }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <a class="btn btn-dark" href="{% url 'inicio' %}">Ir al Inicio</a>
+                        </div>
+                        <div class="col">
+                            <button class="btn btn-warning" type="submit">Modificar</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+
+{% endblock %}

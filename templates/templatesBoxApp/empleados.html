@@ -1,0 +1,54 @@
+{% extends 'templatesBoxApp/base.html' %}
+
+{% block contenido %}
+
+    <div class="row">
+        <div class="col">
+            <div class="row">
+                <div class="col-9">
+                    <div class="h2">Listado de empleados</div>
+                </div>
+                <div class="col-3">
+                    <a href="{% url 'crearEmpleados' %}" class="btn btn-dark">Agregar Empleados</a>
+                </div>
+            </div>
+
+            <table class="table table-striped-columns">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">RUN</th>
+                    <th scope="col">Especialidad</th>
+                    <th scope="col">Área</th>
+                    <th scope="col">Fotografía</th>
+                    <th scope="col">Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    {% for empleado in empleados %}
+
+                    <tr>
+                        <th scope="row">{{ forloop.counter }}</th>
+                        <td>{{ empleado.nombre }} {{ empleado.paterno }} {{ empleado.materno }}</td>
+                        <td>{{ empleado.run }}</td>
+                        <td>{{ empleado.especialidad }}</td>
+                        <td>{{ empleado.area }}</td>
+                        <td>
+                            {% if empleado.foto %}
+                            <img src="{{ empleado.foto.url }}" alt="Foto del Empleado" width="50" height="auto">
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="{% url 'cargarEmpleado' empleado.id %}" class="btn btn-warning">Modificar</a>
+                            <a href="{% url 'eliminarEmpleado' empleado.id %}" class="btn btn-danger">Eliminar</a>
+                        </td>
+                      </tr>
+
+                    {% endfor %}
+                </tbody>
+              </table>
+        </div>
+    </div>
+
+{% endblock %}

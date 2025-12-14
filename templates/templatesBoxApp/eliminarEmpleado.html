@@ -1,0 +1,24 @@
+{% extends 'templatesBoxApp/base.html' %}
+{% block contenido %}
+
+<div class="row">
+    <div class="col-10">
+        <h3>Confirmar Eliminación de Empleado</h3>
+        <div class="alert alert-danger">
+            ¿Está seguro que desea eliminar al Emp. {{ empleado.nombre }} {{ empleado.paterno }}?
+        </div>
+        <form method="post">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col">
+                    <a href="{% url 'empleados' %}" class="btn">Cancelar</a>
+                </div>
+                <div class="col">
+                    <button class="btn btn-danger" type="submit">Eliminar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}
